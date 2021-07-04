@@ -1,0 +1,12 @@
+.DS_Store
+.awcache
+.hscache
+.idea
+dist
+node_modules
+package-lock.json
+raw_assets
+yarn.lock
+crypt.last.hash
+makefile
+content

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-title" content="<%= htmlWebpackPlugin.options.title %>">
+    <script>
+        window.GIT_VERSION = "<%= htmlWebpackPlugin.options.gitversion %>";
+    </script>
+    <style>
+        body {
+            background-color: gray
+        }
+    </style>
+</head>
+<body id="app-root">
+<div id="sceneDiv" class="overlay">
+    <canvas id="scene"></canvas>
+</div>
+</body>
+
+</html>
