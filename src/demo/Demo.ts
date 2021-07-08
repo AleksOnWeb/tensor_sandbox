@@ -3,6 +3,7 @@ import Idle1 from "./states/Idle1";
 import Idle2 from "./states/Idle2";
 import Idle3 from "./states/Idle3";
 import Rotate from "./states/Rotate";
+import Tween from "./Tween";
 
 export default class Demo {
     private _currentState: AbstractState;
@@ -16,11 +17,15 @@ export default class Demo {
     public anim: PIXI.Sprite;
     public editButton: PIXI.Sprite;
 
+    public tweens: Tween[];
+
     constructor() {
         this.idle1 = new Idle1(this);
         this.idle2 = new Idle2(this);
         this.idle3 = new Idle3(this);
         this.rotate = new Rotate(this);
+
+        this.tweens = [];
 
         this.background = this.makeBg();
         this.editButton = this.makeEditBtn();
@@ -60,7 +65,10 @@ export default class Demo {
 
     update() {
         if (this.currentState) {
-            this.currentState.update()
+            this.currentState.update();
+            for (let i = 0; i < this.tweens.length; i++) {
+                this.tweens[i].update(window.app.ticker.elapsedMS);
+            }
         }
     }
 
@@ -81,6 +89,12 @@ export default class Demo {
         btn.on('pointerdown', this.buttonClick.bind(this));
         this.addToStage(btn);
         return btn;
+    }
+
+    addTween(): Tween {
+        const tween = new Tween();
+        this.tweens.push(tween);
+        return tween;
     }
 
     addFighter(): void {
@@ -112,6 +126,8 @@ export default class Demo {
 
                 this.addToStage(anim);
                 this.anim = anim;
+
+                this.addTween().addControl(anim).do({x:[50, 1500]}).start(1000,undefined,-1);
             });
     }
 
