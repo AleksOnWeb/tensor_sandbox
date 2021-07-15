@@ -4,6 +4,7 @@ import Idle2 from "./states/Idle2";
 import Idle3 from "./states/Idle3";
 import Rotate from "./states/Rotate";
 import Tween from "./Tween";
+import {Howl, Howler} from 'howler';
 
 export default class Demo {
     private _currentState: AbstractState;
@@ -12,6 +13,8 @@ export default class Demo {
     public idle2: AbstractState;
     public idle3: AbstractState;
     public rotate: AbstractState;
+
+    public sounds: Howl;
 
     public background: PIXI.Sprite;
     public anim: PIXI.Sprite;
@@ -52,6 +55,10 @@ export default class Demo {
             this.currentState = this.idle1
         } else {
             this.currentState = this.rotate;
+        }
+
+        if (this.sounds) {
+            this.sounds.play('click');
         }
     }
 
@@ -101,6 +108,9 @@ export default class Demo {
         window.app.loader
             .add('assets/fighter.json')
             .load(() => {
+                // load sounds after main resources
+                this.loadSounds();
+
                 // create an array of textures from an image path
                 const frames = [];
 
@@ -128,6 +138,15 @@ export default class Demo {
                 this.anim = anim;
 
                 this.addTween().addControl(anim).do({x:[50, 1500]}).start(1000,undefined,-1);
+            });
+    }
+
+    loadSounds() {
+        const sounds = 'assets/allsounds.json';
+        window.app.loader
+            .add(sounds)
+            .load((loader, resources) => {
+                this.sounds = new Howl(resources[sounds].data);
             });
     }
 

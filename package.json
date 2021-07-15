@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.8",
+    "howler": "^2.2.3",
     "pixi.js-legacy": "5.3.9"
   }
 }
