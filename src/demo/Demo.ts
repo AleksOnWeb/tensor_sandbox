@@ -20,6 +20,7 @@ export default class Demo {
     public background: PIXI.Sprite;
     public anim: PIXI.Sprite;
     public editButton: PIXI.Sprite;
+    public spineAnim: Spine;
 
     public tweens: Tween[];
 
@@ -79,6 +80,10 @@ export default class Demo {
                 this.tweens[i].update(window.app.ticker.elapsedMS);
             }
         }
+
+        if (this.spineAnim) {
+            this.spineAnim.update(window.app.ticker.elapsedMS / 1000)
+        }
     }
 
     makeBg(): PIXI.Sprite {
@@ -116,11 +121,15 @@ export default class Demo {
                 // add the animation to the scene and render...
                 this.addToStage(animation);
 
-                if (animation.state.hasAnimation('run')) {
+                if (animation.state.hasAnimation('aim') &&
+                    animation.state.hasAnimation('run')) {
                     // run forever, little boy!
-                    animation.state.setAnimation(0, 'run', true);
+                    animation.state.setAnimation(0, 'aim', true);
+                    animation.state.setAnimation(1, 'run', true);
                     // dont run too fast
                     animation.state.timeScale = 0.5;
+                    console.warn(animation);
+                    this.spineAnim = animation;
                 }
             });
     }
