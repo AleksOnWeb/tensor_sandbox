@@ -5,6 +5,7 @@ import Idle3 from "./states/Idle3";
 import Rotate from "./states/Rotate";
 import Tween from "./Tween";
 import {Howl, Howler} from 'howler';
+import {Spine} from 'pixi-spine';
 
 export default class Demo {
     private _currentState: AbstractState;
@@ -32,7 +33,8 @@ export default class Demo {
 
         this.background = this.makeBg();
         this.editButton = this.makeEditBtn();
-        this.addFighter();
+        //this.addFighter();
+        this.addSpineBoy();
     }
 
     set currentState(state: AbstractState) {
@@ -102,6 +104,25 @@ export default class Demo {
         const tween = new Tween();
         this.tweens.push(tween);
         return tween;
+    }
+
+    addSpineBoy(): void {
+        window.app.loader
+            .add('spineCharacter', 'assets/spineboy-pro.json')
+            .load((loader, resources) => {
+                const animation = new Spine(resources.spineCharacter.spineData);
+                animation.x = window.app.screen.width / 2;
+                animation.y = window.app.screen.height / 3 * 2;
+                // add the animation to the scene and render...
+                this.addToStage(animation);
+
+                if (animation.state.hasAnimation('run')) {
+                    // run forever, little boy!
+                    animation.state.setAnimation(0, 'run', true);
+                    // dont run too fast
+                    animation.state.timeScale = 0.5;
+                }
+            });
     }
 
     addFighter(): void {

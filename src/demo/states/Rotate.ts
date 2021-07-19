@@ -11,7 +11,9 @@ export default class Rotate extends AbstractState{
     }
 
     update(): void {
-        this.parent.anim.rotation += 0.01;
+        if(this.parent.anim){
+            this.parent.anim.rotation += 0.01;
+        }
     }
 
     end() {
