@@ -122,7 +122,7 @@ export default class Demo {
                 this.addToStage(animation);
 
                 if (animation.state.hasAnimation('aim') &&
-                    animation.state.hasAnimation('run')) {
+                    animation.state.hasAnimation('hoverboard')) {
                     // run forever, little boy!
                     animation.state.setAnimation(0, 'aim', true);
                     animation.state.setAnimation(1, 'run', true);
@@ -130,6 +130,10 @@ export default class Demo {
                     animation.state.timeScale = 0.5;
                     console.warn(animation);
                     this.spineAnim = animation;
+
+                    const ikCross = this.spineAnim.skeleton.ikConstraints[0].target;
+                    this.addTween().addControl(ikCross)
+                        .do({y:[100,400]}).start(3000,undefined,-1);
                 }
             });
     }
